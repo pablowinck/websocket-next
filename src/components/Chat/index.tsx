@@ -4,6 +4,7 @@ import Button from "../Button";
 import Input from "../Input";
 import Messages from "../Messages";
 import Status from "../Status";
+import { useLayoutSize } from "@/hooks/useLayoutSize";
 
 const Chat: React.FC = () => {
   const [username, setUsername] = useState("pablowinck");
@@ -12,6 +13,7 @@ const Chat: React.FC = () => {
     username: userKey,
   });
   const [message, setMessage] = useState("");
+  const { isMobile } = useLayoutSize();
 
   return (
     <div
@@ -31,10 +33,19 @@ const Chat: React.FC = () => {
           alignItems: "center",
           width: "100%",
           justifyContent: "center",
+          flexDirection: isMobile ? "column" : "row",
         }}
       >
+        <div style={{
+            display: "flex",
+            gap: "1rem",
+            alignItems: "center",
+            justifyContent: "center",
+            
+        }}>
         <h1>Chat</h1>
-        <Status state={(isReady && !!userKey) ? status : 3} />
+        <Status state={isReady && !!userKey ? status : 3} />
+        </div>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -71,6 +82,7 @@ const Chat: React.FC = () => {
           width: "100%",
           margin: "3rem 0",
           maxWidth: "30rem",
+          flexDirection: isMobile ? "column" : "row",
         }}
         onSubmit={(e) => {
           e.preventDefault();
@@ -80,17 +92,23 @@ const Chat: React.FC = () => {
         }}
       >
         <Input value={message} onChange={(e) => setMessage(e.target.value)} />
-        <Button type="submit">send</Button>
-        <Button
-          type="button"
-          style={{
-            backgroundColor: "#ce5959",
-            width: "12rem",
-          }}
-          onClick={clearMessages}
-        >
-          clear chat
-        </Button>
+        <div
+        style={{
+            display: "flex",
+            gap: "1rem",
+        }}>
+          <Button type="submit">send</Button>
+          <Button
+            type="button"
+            style={{
+              backgroundColor: "#ce5959",
+              width: "8rem",
+            }}
+            onClick={clearMessages}
+          >
+            clear chat
+          </Button>
+        </div>
       </form>
     </div>
   );
