@@ -34,7 +34,7 @@ const Chat: React.FC = () => {
         }}
       >
         <h1>Chat</h1>
-        <Status state={isReady ? status : 3} />
+        <Status state={(isReady && !!userKey) ? status : 3} />
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -74,7 +74,7 @@ const Chat: React.FC = () => {
         }}
         onSubmit={(e) => {
           e.preventDefault();
-          if (!message || !message.trim()) return;
+          if (!message || !message.trim() || !userKey) return;
           sendMessage(message);
           setMessage("");
         }}
