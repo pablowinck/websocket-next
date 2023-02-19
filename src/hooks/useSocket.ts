@@ -19,8 +19,8 @@ export const useSocket = ({ username }: { username: string }) => {
       setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>,
       setStatus: React.Dispatch<React.SetStateAction<number>>
     ): WebSocket => {
-      const url = process.env.NEXT_PUBLIC_SOCKET_URL || "localhost:8080";
-      let instance = new WebSocket(`ws://${url}/chat/${username}@${uid}`);
+      const url = `wss://${process.env.NEXT_PUBLIC_SOCKET_URL}` || "ws://localhost:8080";
+      let instance = new WebSocket(`${url}/chat/${username}@${uid}`);
       instance.onmessage = (event) => {
         const data = JSON.parse(event.data);
         setMessages((prev) => [...prev, data]);
